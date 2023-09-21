@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const SomeMyEnum = {
+const SubscriptionTypes = {
   starter: "starter",
   pro: "pro",
   business: "business",
@@ -9,7 +9,7 @@ const SomeMyEnum = {
 const subscriptionSchemaJoi = Joi.object({
   subscription: Joi.string()
     .required()
-    .valid(...Object.values(SomeMyEnum)),
+    .valid(...Object.values(SubscriptionTypes)),
 });
 
 module.exports = { subscriptionSchemaJoi };

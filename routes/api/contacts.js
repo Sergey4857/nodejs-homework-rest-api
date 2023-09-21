@@ -9,7 +9,7 @@ const {
   mainDataSchemsJoi,
 } = require("../../service/joi-schemas/mainDataSchemsJoi");
 const {
-  SchemaForUpdateJoi,
+  schemaForUpdateJoi,
 } = require("../../service/joi-schemas/updateSchemaJoi");
 
 const { validateBody } = require("../../middlewarees/validateBody");
@@ -45,7 +45,7 @@ router.put(
 router.patch(
   "/:contactId/favorite",
   authenticate,
-  validateBody(SchemaForUpdateJoi),
+  validateBody(schemaForUpdateJoi),
   isValidId,
   controlers.updateStatusContact
 );

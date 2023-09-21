@@ -6,28 +6,28 @@ const { loginJoi } = require("../../service/joi-schemas/loginJoi");
 const {
   subscriptionSchemaJoi,
 } = require("../../service/joi-schemas/subscriptionSchemaJoi");
-const ctrl = require("../../controller/auth");
+const {
+  register,
+  login,
+  getCurrent,
+  logout,
+  subscription,
+} = require("../../controller/auth");
 const authenticate = require("../../middlewarees/authenticate");
 
-// ---------------------register------------------------
+router.post("/users/register", validateBody(registerJoiSchema), register);
 
-router.post("/users/register", validateBody(registerJoiSchema), ctrl.register);
+router.post("/users/login", validateBody(loginJoi), login);
 
-// ---------------------login--------------------------
-router.post("/users/login", validateBody(loginJoi), ctrl.login);
+router.get("/users/current", authenticate, getCurrent);
 
-// ---------------------current------------------------
-router.get("/users/current", authenticate, ctrl.getCurrent);
+router.post("/users/logout", authenticate, logout);
 
-// ---------------------logout------------------------
-router.post("/users/logout", authenticate, ctrl.logout);
-
-// ---------------UpdateSubscriptionContact-------------
 router.patch(
   "/users",
   authenticate,
   validateBody(subscriptionSchemaJoi),
-  ctrl.subscription
+  subscription
 );
 
 module.exports = router;

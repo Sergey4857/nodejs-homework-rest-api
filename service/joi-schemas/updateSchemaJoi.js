@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
-const SchemaForUpdateJoi = Joi.object({
+const schemaForUpdateJoi = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-module.exports = { SchemaForUpdateJoi };
+module.exports = { schemaForUpdateJoi };
