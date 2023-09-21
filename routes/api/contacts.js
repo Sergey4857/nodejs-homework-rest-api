@@ -4,23 +4,50 @@ const router = express.Router();
 
 const controlers = require("../../controller/index");
 
-const isValidId = require("../../Helpers/IsValidId");
+const isValidId = require("../../middlewarees/IsValidId");
+const {
+  mainDataSchemsJoi,
+} = require("../../service/joi-schemas/mainDataSchemsJoi");
+const {
+  SchemaForUpdateJoi,
+} = require("../../service/joi-schemas/updateSchemaJoi");
+
+const { validateBody } = require("../../middlewarees/validateBody");
+
+const authenticate = require("../../middlewarees/authenticate");
 // ------------------Get contacts------------------
-router.get("/", controlers.get);
+router.get("/", authenticate, controlers.get);
 
 // ------------------Find by ID------------------
-router.get("/:contactId", isValidId, controlers.findById);
+router.get("/:contactId", authenticate, isValidId, controlers.findById);
 
 // ------------------Add new contact------------------
-router.post("/", controlers.addNewContact);
+router.post(
+  "/",
+  authenticate,
+  validateBody(mainDataSchemsJoi),
+  controlers.addNewContact
+);
 
 // ------------------Remove contact------------------
-router.delete("/:contactId", isValidId, controlers.deleteContact);
+router.delete("/:contactId", authenticate, isValidId, controlers.deleteContact);
 
 // ------------------Update contact------------------
-router.put("/:contactId", isValidId, controlers.updateContact);
+router.put(
+  "/:contactId",
+  authenticate,
+  validateBody(mainDataSchemsJoi),
+  isValidId,
+  controlers.updateContact
+);
 
-// ------------------UpdateStatusContact------------------
-router.patch("/:contactId/favorite", isValidId, controlers.updateStatusContact);
+// ------------------UpdateFavoriteContact------------------
+router.patch(
+  "/:contactId/favorite",
+  authenticate,
+  validateBody(SchemaForUpdateJoi),
+  isValidId,
+  controlers.updateStatusContact
+);
 
 module.exports = router;
