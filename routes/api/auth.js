@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const { registerJoiSchema } = require("../../service/joi-schemas/registerJoi");
 const { loginJoi } = require("../../service/joi-schemas/loginJoi");
+const { emailSchema } = require("../../service/joi-schemas/emailSchema");
 const upload = require("../../middlewarees/upload");
 const {
   subscriptionSchemaJoi,
@@ -15,10 +16,16 @@ const {
   logout,
   subscription,
   updateAvatar,
+  verifyEmail,
+  resendVerifyEmail,
 } = require("../../controller/auth");
 const authenticate = require("../../middlewarees/authenticate");
 
 router.post("/users/register", validateBody(registerJoiSchema), register);
+
+router.get("/users/verify/:verificationToken", verifyEmail);
+
+router.post("/users/verify", validateBody(emailSchema), resendVerifyEmail);
 
 router.post("/users/login", validateBody(loginJoi), login);
 
